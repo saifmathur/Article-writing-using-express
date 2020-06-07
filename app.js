@@ -33,6 +33,11 @@ app.use(bodyParser.urlencoded(
 //parse app json
 app.use(bodyParser.json());
 
+//set public folder as static files source
+app.use(express.static(__dirname + '/public'));
+
+
+
 //home route
 app.get('/', function (req, res){
     Article.find({}, function (err, articles){
@@ -56,6 +61,7 @@ app.get('/articles/add', function (req, res){
         title: 'Add Article'
     })
 })
+
 //Add submit post route
 app.post('/articles/add', function (req, res){
     var article = new Article();
@@ -74,16 +80,6 @@ app.post('/articles/add', function (req, res){
     })
 
 })
-
-app.get('/success', function (req, res){
-    res.render('success', {
-        articles: articles
-    })
-})
-
-
-
-
 
 //start server
 app.listen(3000, function () {
