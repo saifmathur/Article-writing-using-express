@@ -10,7 +10,8 @@ let Article = require('./models/article.js');
 
 //mongo conn
 mongoose.connect('mongodb://localhost/usingExpress',{
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
 const db = mongoose.connection;
 
