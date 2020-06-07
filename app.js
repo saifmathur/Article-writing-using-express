@@ -1,6 +1,6 @@
 const express = require('express');
-
-const mongoose = require('mongoose')
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 //mongo conn
 mongoose.connect('mongodb://127.0.0.1:27017/nodekb');
@@ -17,7 +17,7 @@ db.on('error', function (err) {
     console.log(err);    
 });
 
-const app = express();//init app
+const app = express();   //init app
 //bringing in the data
 let Article = require('./models/article');
 
@@ -25,7 +25,13 @@ let Article = require('./models/article');
 app.set('views', __dirname + '/views');
 app.set('view engine','pug');
 
+//adding body parsers middle ware
+app.use(bodyParser.urlencoded(
+    { extended: false }
+));
 
+//parse app json
+app.use(bodyParser.json());
 
 //home route
 app.get('/', function (req, res){
@@ -50,7 +56,24 @@ app.get('/articles/add', function (req, res){
         title: 'Add Article'
     })
 })
+//Add submit post route
+app.post('/articles/add', function (req, res){
+    var article = new Article();
+    article.title = req.body.title;
+    article.author = req.body.author;
+    article.body = req.body.body;
 
+    article.save(function (err){
+        if (err) {
+                    console.log(err);
+                    return;
+                }
+                else {
+                    res.redirect('/');
+                }
+    })
+
+})
 
 app.get('/success', function (req, res){
     res.render('success', {
