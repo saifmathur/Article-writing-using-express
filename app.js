@@ -59,8 +59,9 @@ app.get('/', function (req, res){
 //get single article
 app.get('/article/:id', function (req, res){
     Article.findById(req.params.id, function(err, article){
-        console.log(article);
-        return;
+       res.render('article', {
+            article: article
+       })
     })
 })
 
@@ -91,6 +92,18 @@ app.post('/articles/add', function (req, res){
     })
 
 })
+
+
+//edit article
+app.get('/article/edit/:id', function (req, res){
+    Article.findById(req.params.id, function(err, article){
+       res.render('edit_article', {
+            title: 'Edit Article',
+            article: article
+       })
+    })
+})
+
 
 //start server
 app.listen(3000, function () {
