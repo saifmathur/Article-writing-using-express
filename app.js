@@ -104,6 +104,59 @@ app.get('/article/edit/:id', function (req, res){
     })
 })
 
+//update the edited
+app.post('/articles/edit/:id', function (req, res){
+    let article = {};  //initialising an empty object
+    article.title = req.body.title;
+    article.author = req.body.author;
+    article.body = req.body.body;
+
+    //query for updating
+    let query = {_id: req.params.id}
+
+    Article.update(query,article,function (err){
+        if (err)
+        {
+            console.log(err);
+            return;
+        }
+        else
+        {
+            res.redirect('/');
+        }
+    })
+
+        
+})
+
+
+//Deleting an article
+app.get('/article/delete/:id', function (req, res){
+
+    let query = { _id:req.params.id };
+    Article.deleteOne(query, function (err){
+        if(err){
+            console.log(err);
+        }
+        else {
+            res.redirect('/')
+        }
+    })
+
+
+
+
+})
+
+app.delete('/article/:id', function (req, res){
+    let query = { _id:req.params.id }
+    Article.remove(query, function (err) {
+        if(err){
+            console.log(err);
+        }
+        res.send('Successfully deleted');
+    })
+})
 
 //start server
 app.listen(3000, function () {
