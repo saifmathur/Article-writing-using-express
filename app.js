@@ -56,6 +56,17 @@ app.get('/', function (req, res){
    
 });
 
+//get single article
+app.get('/article/:id', function (req, res){
+    Article.findById(req.params.id, function(err, article){
+        console.log(article);
+        return;
+    })
+})
+
+
+
+
 app.get('/articles/add', function (req, res){
     res.render('add_article', {
         title: 'Add Article'
