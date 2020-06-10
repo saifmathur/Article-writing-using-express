@@ -37,6 +37,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 
+
 //home route
 app.get('/', function (req, res){
     Article.find({}, function (err, articles){
@@ -146,6 +147,9 @@ app.get('/article/delete/:id', function (req, res){
 
 
 })
+
+let users = require('./routes/users')
+app.use('/users', users);
 
 
 
